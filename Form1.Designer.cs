@@ -32,6 +32,7 @@
             tabPage1 = new TabPage();
             tabControl2 = new TabControl();
             tabPage3 = new TabPage();
+            dataGridView7 = new DataGridView();
             label22 = new Label();
             label21 = new Label();
             textBox21 = new TextBox();
@@ -99,12 +100,11 @@
             textBox15 = new TextBox();
             textBox14 = new TextBox();
             textBox13 = new TextBox();
-            dataGridView6 = new DataGridView();
-            dataGridView7 = new DataGridView();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabControl2.SuspendLayout();
             tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView7).BeginInit();
             tabPage4.SuspendLayout();
             tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)kullaniciGridTablo).BeginInit();
@@ -117,8 +117,6 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView5).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView4).BeginInit();
             tabPage7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView6).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView7).BeginInit();
             SuspendLayout();
             // 
             // tabControl1
@@ -188,6 +186,17 @@
             tabPage3.TabIndex = 0;
             tabPage3.Text = "Normal Kullanıcı Oluşturma";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView7
+            // 
+            dataGridView7.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView7.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView7.Location = new Point(1309, 0);
+            dataGridView7.Name = "dataGridView7";
+            dataGridView7.RowHeadersVisible = false;
+            dataGridView7.RowHeadersWidth = 62;
+            dataGridView7.Size = new Size(422, 293);
+            dataGridView7.TabIndex = 18;
             // 
             // label22
             // 
@@ -604,7 +613,6 @@
             tabPage6.Controls.Add(dataGridView2);
             tabPage6.Controls.Add(dataGridView3);
             tabPage6.Controls.Add(dataGridView5);
-            tabPage6.Controls.Add(dataGridView6);
             tabPage6.Controls.Add(dataGridView4);
             tabPage6.Location = new Point(4, 34);
             tabPage6.Name = "tabPage6";
@@ -827,28 +835,6 @@
             textBox13.Size = new Size(261, 31);
             textBox13.TabIndex = 0;
             // 
-            // dataGridView6
-            // 
-            dataGridView6.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView6.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView6.Location = new Point(409, 1);
-            dataGridView6.Name = "dataGridView6";
-            dataGridView6.RowHeadersVisible = false;
-            dataGridView6.RowHeadersWidth = 62;
-            dataGridView6.Size = new Size(443, 307);
-            dataGridView6.TabIndex = 4;
-            // 
-            // dataGridView7
-            // 
-            dataGridView7.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView7.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView7.Location = new Point(1309, 0);
-            dataGridView7.Name = "dataGridView7";
-            dataGridView7.RowHeadersVisible = false;
-            dataGridView7.RowHeadersWidth = 62;
-            dataGridView7.Size = new Size(422, 293);
-            dataGridView7.TabIndex = 18;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -863,6 +849,7 @@
             tabControl2.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
             tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView7).EndInit();
             tabPage4.ResumeLayout(false);
             tabPage4.PerformLayout();
             tabPage5.ResumeLayout(false);
@@ -878,8 +865,6 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView4).EndInit();
             tabPage7.ResumeLayout(false);
             tabPage7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView6).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView7).EndInit();
             ResumeLayout(false);
         }
 
@@ -957,6 +942,5 @@
         private TextBox textBox20;
         private Label label22;
         private DataGridView dataGridView7;
-        private DataGridView dataGridView6;
     }
 }

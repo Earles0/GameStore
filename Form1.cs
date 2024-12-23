@@ -8,7 +8,7 @@ namespace GameStore
 {
     public partial class Form1 : Form
     {
-        private string connString = "Host=localhost;Port=5432;Username=postgres;Password=EarleS;Database=sondeneme"; // Veritabanı bağlantı dizesi
+        private string connString = "Host=localhost;Port=5432;Username=postgres;Password=EarleS;Database=mteam"; // Veritabanı bağlantı dizesi
         public Form1()
         {
             InitializeComponent();
