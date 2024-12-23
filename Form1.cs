@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.ApplicationServices;
 using Npgsql;
 
 namespace GameStore
 {
     public partial class Form1 : Form
     {
-        private string connString = "Host=localhost;Port=5432;Username=postgres;Password=EarleS;Database=mteam"; // Veritabanı bağlantı dizesi
+        private string connString = "Host=localhost;Port=5432;Username=postgres;Password=EarleS;Database=sondeneme"; // Veritabanı bağlantı dizesi
         public Form1()
         {
             InitializeComponent();
@@ -40,7 +41,6 @@ namespace GameStore
                                     a.yetki_seviyesi,
                                     -- DevUsers için
                                     d.sirket_adi,
-                                    d.oyun_sayisi,
                                     d.onayli_gelistirici,
                                     -- NormalUsers için
                                     n.dogum_tarihi
@@ -151,7 +151,7 @@ namespace GameStore
                     {
                         DataTable dt = new DataTable();
                         da.Fill(dt);
-                        dataGridView3.DataSource = dt; // Platforms için DataGridView3 kullanıyoruz
+                        dataGridView3.DataSource = dt;
                     }
                 }
                 catch (Exception ex)
@@ -160,8 +160,6 @@ namespace GameStore
                 }
             }
         }
-
-        // Categories tablosunu yükleyen metot
         private void LoadCategories()
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(connString))
@@ -174,7 +172,7 @@ namespace GameStore
                     {
                         DataTable dt = new DataTable();
                         da.Fill(dt);
-                        dataGridView4.DataSource = dt; // Categories için DataGridView4 kullanıyoruz
+                        dataGridView4.DataSource = dt; 
                     }
                 }
                 catch (Exception ex)
@@ -183,8 +181,6 @@ namespace GameStore
                 }
             }
         }
-
-        // Publishers tablosunu yükleyen metot
         private void LoadPublishers()
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(connString))
@@ -197,7 +193,7 @@ namespace GameStore
                     {
                         DataTable dt = new DataTable();
                         da.Fill(dt);
-                        dataGridView5.DataSource = dt; // Publishers için DataGridView5 kullanıyoruz
+                        dataGridView5.DataSource = dt; 
                     }
                 }
                 catch (Exception ex)
@@ -231,7 +227,6 @@ namespace GameStore
                     a.yetki_seviyesi,
                     -- DevUsers için
                     d.sirket_adi,
-                    d.oyun_sayisi,
                     d.onayli_gelistirici,
                     -- NormalUsers için
                     n.dogum_tarihi
@@ -260,6 +255,10 @@ namespace GameStore
 
                             // Sonuçları DataGridView'e aktar
                             kullaniciGridTablo.DataSource = dt;
+
+                            int userId = Convert.ToInt32(dt.Rows[0]["user_id"]);
+
+                            ListUserGames(userId);
                         }
                     }
                 }
@@ -270,6 +269,51 @@ namespace GameStore
             }
         }
 
+        private void ListUserGames(int userId)
+        {
+
+            dataGridView7.DataSource = null;
+
+            // Veritabanı bağlantısı kur
+            using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    // Kullanıcıya ait favori oyunları sorgula
+                    string query = @"
+                SELECT 
+                    g.game_name, 
+                    g.price
+                FROM 
+                    favorite_games fg
+                JOIN 
+                    games g ON fg.game_id = g.game_id
+                WHERE 
+                    fg.user_id = @userId";
+
+                    using (var cmd = new NpgsqlCommand(query, conn))
+                    {
+                        // Kullanıcı ID'sini parametre olarak ekle
+                        cmd.Parameters.AddWithValue("@userId", userId);
+
+                        using (var da = new NpgsqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+
+                            // Favori oyunları DataGridView'e aktar
+                            dataGridView7.DataSource = dt;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Veritabanı işlemi sırasında hata oluştu: " + ex.Message);
+                }
+            }
+        }
         private void AddGame(int categoryId, int developerId, string gameName, decimal price, int publisherId)
         {
             using (NpgsqlConnection conn = new NpgsqlConnection(connString))
@@ -300,7 +344,7 @@ namespace GameStore
 
 
 
-        // Form1_Load veya işlemlerin sonunda bu fonksiyonu çağırarak Grid'i güncelleyebilirsiniz.
+
         private void Form1_Load(object sender, EventArgs e)
         {
             UpdateGrid(); // Uygulama açıldığında veritabanını yükle
@@ -414,7 +458,6 @@ namespace GameStore
                     // Veritabanı bağlantısını aç
                     conn.Open();
 
-                    // Transaction başlat
                     using (var transaction = conn.BeginTransaction())
                     {
                         // SQL fonksiyonunu çağır
@@ -628,7 +671,7 @@ namespace GameStore
             int gameId;
             int platformId;
 
-            // Inputların geçerli olduğundan emin olun
+
             if (int.TryParse(textBox18.Text, out gameId) && int.TryParse(textBox19.Text, out platformId))
             {
                 // SQL sorgusu hazırlanır
@@ -650,7 +693,6 @@ namespace GameStore
                             // Komut çalıştırılır
                             cmd.ExecuteNonQuery();
 
-                            // Başarı mesajı gösterilir
                             MessageBox.Show("Oyun platforma bağlandı.");
 
                             // Gerekirse UI güncellenebilir (örneğin bir grid kontrolü)
@@ -671,15 +713,14 @@ namespace GameStore
 
         private void button20_Click(object sender, EventArgs e)
         {
-            // Kullanıcıdan alınan verileri oku
             int userId;
             int gameId;
 
             try
             {
                 // TextBox'lardan User ID ve Game ID'yi al
-                userId = int.Parse(textBox20.Text); // Kullanıcı ID'si (örneğin: TextBox'un Name'i 'txtUserId')
-                gameId = int.Parse(textBox21.Text); // Oyun ID'si (örneğin: TextBox'un Name'i 'txtGameId')
+                userId = int.Parse(textBox20.Text); 
+                gameId = int.Parse(textBox21.Text); 
 
                 using (NpgsqlConnection conn = new NpgsqlConnection(connString))
                 {
