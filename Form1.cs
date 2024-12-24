@@ -761,5 +761,45 @@ namespace GameStore
             }
         }
 
+        private void button11_Click(object sender, EventArgs e)
+        {
+            // TextBox18'den alınan oyun ID'sini al
+            int gameIdToDelete = Convert.ToInt32(textBox18.Text);
+
+            using (var conn = new NpgsqlConnection(connString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    // Transaction başlat
+                    using (var transaction = conn.BeginTransaction())
+                    {
+                        // Oyun silme sorgusunu oluştur
+                        string query = "DELETE FROM games WHERE game_id = @game_id";
+                        using (var cmd = new NpgsqlCommand(query, conn))
+                        {
+                            // Parametreyi ekle
+                            cmd.Parameters.AddWithValue("@game_id", gameIdToDelete);
+
+                            // Sorguyu çalıştır
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Transaction'ı commit et
+                        transaction.Commit();
+                    }
+
+                    // Veritabanındaki veriyi yeniden yükle ve grid'i güncelle
+                    UpdateGrid();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hata: " + ex.Message);
+                }
+            }
+        }
+
+
     }
 }

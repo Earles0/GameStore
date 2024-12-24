@@ -83,6 +83,7 @@
             dataGridView5 = new DataGridView();
             dataGridView4 = new DataGridView();
             tabPage7 = new TabPage();
+            button11 = new Button();
             button9 = new Button();
             button8 = new Button();
             label20 = new Label();
@@ -668,6 +669,7 @@
             // 
             // tabPage7
             // 
+            tabPage7.Controls.Add(button11);
             tabPage7.Controls.Add(button9);
             tabPage7.Controls.Add(button8);
             tabPage7.Controls.Add(label20);
@@ -692,6 +694,16 @@
             tabPage7.TabIndex = 1;
             tabPage7.Text = "Oyun Eklemeleri";
             tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // button11
+            // 
+            button11.Location = new Point(1120, 28);
+            button11.Name = "button11";
+            button11.Size = new Size(104, 34);
+            button11.TabIndex = 19;
+            button11.Text = "Sil";
+            button11.UseVisualStyleBackColor = true;
+            button11.Click += button11_Click;
             // 
             // button9
             // 
@@ -942,5 +954,6 @@
         private TextBox textBox20;
         private Label label22;
         private DataGridView dataGridView7;
+        private Button button11;
     }
 }
