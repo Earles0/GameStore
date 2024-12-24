@@ -8,7 +8,7 @@ namespace GameStore
 {
     public partial class Form1 : Form
     {
-        private string connString = "Host=localhost;Port=5432;Username=postgres;Password=EarleS;Database=mteam"; // Veritabanı bağlantı dizesi
+        private string connString = "Host=localhost;Port=5432;Username=postgres;Password=EarleS;Database=Final1"; // Veritabanı bağlantı dizesi
         public Form1()
         {
             InitializeComponent();
@@ -321,7 +321,7 @@ namespace GameStore
                 try
                 {
                     conn.Open();
-                    string query = "SELECT add_game(@category_id, @developer_id, @game_name, @price, @publisher_id)";
+                    string query = "CALL add_game(@category_id, @developer_id, @game_name, @price, @publisher_id)";
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@category_id", categoryId);
@@ -332,6 +332,8 @@ namespace GameStore
 
                         cmd.ExecuteNonQuery(); // Fonksiyonu çalıştır
                         MessageBox.Show("Oyun başarıyla eklendi!");
+
+                        UpdateGrid();
                     }
                 }
                 catch (Exception ex)
@@ -413,7 +415,7 @@ namespace GameStore
                     using (var transaction = conn.BeginTransaction())
                     {
                         // SQL fonksiyonunu çağır
-                        string query = "SELECT delete_user_by_id(@user_id)";
+                        string query = "CALL delete_user_by_id(@user_id)";
                         using (var cmd = new NpgsqlCommand(query, conn))
                         {
                             cmd.Parameters.AddWithValue("@user_id", userIdToDelete);
@@ -461,7 +463,7 @@ namespace GameStore
                     using (var transaction = conn.BeginTransaction())
                     {
                         // SQL fonksiyonunu çağır
-                        string query = "SELECT add_developer(@username, @email, @companyName, @isVerified)";
+                        string query = "CALL add_developer(@username, @email, @companyName, @isVerified)";
                         using (var cmd = new NpgsqlCommand(query, conn))
                         {
                             // Parametreleri ekle
@@ -503,7 +505,6 @@ namespace GameStore
             }
 
             // Veritabanı bağlantı dizesi
-            string connString = "Host=localhost;Port=5432;Username=postgres;Password=EarleS;Database=mteam";
 
             using (var conn = new NpgsqlConnection(connString))
             {
@@ -514,7 +515,7 @@ namespace GameStore
                     using (var transaction = conn.BeginTransaction())
                     {
                         // SQL fonksiyonunu çağır
-                        string query = "SELECT add_admin(@username, @email, @authorityLevel)";
+                        string query = "CALL add_admin(@username, @email, @authorityLevel)";
                         using (var cmd = new NpgsqlCommand(query, conn))
                         {
                             cmd.Parameters.AddWithValue("username", username);
@@ -577,7 +578,7 @@ namespace GameStore
                     conn.Open();
 
                     // SQL fonksiyonunu çağır
-                    string query = "SELECT update_admin_authority(@user_id_to_update, @new_authority_level)";
+                    string query = "CALL update_admin_authority(@user_id_to_update, @new_authority_level)";
                     using (var cmd = new NpgsqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@user_id_to_update", userIdToUpdate);
